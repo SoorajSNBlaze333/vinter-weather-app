@@ -14,36 +14,86 @@ main {
   width: 100vw;
 }
 
+.weather-main {
+  background-image: url("../assets/rainy.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
 .weather-view-grid {
   height: 100vh;
   width: 100vw;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .weather-for-today {
-  font-size: 30px;
   border: 1px solid brown;
 }
 
+.weather-for-today-container {
+  color: white;
+  font-size: 50px;
+  font-weight: 700;
+}
+
 .weather-for-dates {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  overflow-x: auto;
-  background-color: white;
-  padding: 40px;
   border-radius: 10px;
-  border: 1px solid red;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end; 
+}
+
+.weather-for-date-container-flex {
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(16px);
+  color: white;
+}
+
+.weather-for-date-container-flex > hr {
+  opacity: 0.8;
+}
+
+.weather-for-date-container {
+  overflow-x: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end; 
 }
 
 .weather-for-date {
-  padding: 0 5px;
-  min-width: 80px;
   width: auto;
-  border: 1px solid gray;
+  min-width: 85px;
+  min-height: 150px;
+  max-height: 150px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.weather-for-date-now {
+  margin-bottom: 10px;
+}
+
+.weather-for-date > p {
+  font-size: 13px;
+}
+
+.weather-for-date-temperature {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.weather-for-date-temperature > p {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .weather-sunrise-sunset {
@@ -51,5 +101,46 @@ main {
 }
 
 .weather-forecast {
-  border: 1px solid green;
+  border-radius: 10px;
+}
+
+.weather-forecast-container-flex {
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(16px);
+  color: white;
+  max-width: 595px;
+}
+
+.weather-forecast-container {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end; 
+  width: 100%;
+}
+
+.weather-forecast-for-date {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.weather-forecast-for-date > p {
+  grid-column: span 1 / span 1;
+}
+
+.weather-forecast-for-date-temperature {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  grid-column: span 1 / span 1;
+}
+
+.weather-forecast-for-date-min-max {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-column: span 6 / span 6;
 }
