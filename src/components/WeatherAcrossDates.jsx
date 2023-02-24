@@ -6,9 +6,11 @@ import WeatherExtraInfo from './WeatherExtraInfo';
 import WeatherToday from './WeatherToday';
 
 export default function WeatherAcrossDates({ data }) {
-  const [weather, setWeather] = useState(null)
+  const [weather, setWeather] = useState(null);
+  const [location, setLocation] = useState("");
 
   useEffect(() => {
+    // setLocation(data ? data.location : { lat: 0, lon: 0 });
     setWeather(data ? data.weatherData : null);
   }, [data]);
 
@@ -34,7 +36,7 @@ export default function WeatherAcrossDates({ data }) {
     transitionDuration: "200ms",
     background: Object.values(weather)[0]["weather_symbol_1h:idx"] > 17 ? "linear-gradient(rgb(125 211 252), rgb(2 132 199))" : "linear-gradient(rgb(30 58 138), rgb(15 23 42))"
   }}>
-    <WeatherToday data={weather} />
+    <WeatherToday location={location} data={weather} />
     <div className="weather-for-dates">
       <div className="weather-for-date-container-flex">
         <p>Forecast for the next 6 hours</p>

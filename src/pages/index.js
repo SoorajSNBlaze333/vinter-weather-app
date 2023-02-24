@@ -9,7 +9,11 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const [isFetching, setIsFetching] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
-  const [weatherConfig, setWeatherConfig] = useState({});
+  const [weatherConfig, setWeatherConfig] = useState({
+    datetime: `${dayjs().utcOffset(-6, true).format(`YYYY-MM-DDThh:mm:ssZ`)}P5D:PT1H`,
+    coordinates: [29.749907, -95.358421],
+    parameters: ["t_2m:C", "t_min_2m_24h:C", "t_max_2m_24h:C", "uv:idx", "sunrise:sql", "sunset:sql", "weather_symbol_1h:idx"]
+  });
   const [configView, toggleConfigView] = useState(false);
 
   useEffect(() => {
