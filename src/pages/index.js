@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { fetchWeatherData } from '@/lib/api'
@@ -9,6 +9,12 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const [isFetching, setIsFetching] = useState(false);
   const [weatherData, setWeatherData] = useState(null);
+  const [weatherConfig, setWeatherConfig] = useState({});
+  const [configView, toggleConfigView] = useState(false);
+
+  useEffect(() => {
+    handleFetch();
+  }, [])
 
   const handleFetch = async() => {
     setIsFetching(true);
@@ -19,10 +25,13 @@ export default function Home() {
   }
 
   const renderWeatherData = () => {
-    if (isFetching) return <div>Loading Data</div>
     return (<div className=''>
-      <WeatherAcrossDates data={weatherData} />
-      <button onClick={handleFetch}>Fetch Weather</button>
+      {isFetching ? <div>Loading Data</div> : <WeatherAcrossDates data={weatherData} />}
+      <button onClick={() => toggleConfigView(true)} className="fetch-button">Open Config</button>
+      <div className='weather-fetch-config' style={{ right: configView ? "0px" : "-400px" }}>
+        <button onClick={handleFetch}>Fetch</button>
+        <button onClick={() => toggleConfigView(false)}>Close</button>
+      </div>
     </div>)
   }
 

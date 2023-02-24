@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import dayjs from '../lib/day';
 import { Cloud } from 'phosphor-react';
 import WeatherForecast from './WeatherForecast';
+import WeatherExtraInfo from './WeatherExtraInfo';
+import WeatherToday from './WeatherToday';
 
 export default function WeatherAcrossDates({ data }) {
   const [weather, setWeather] = useState(null)
@@ -9,19 +11,6 @@ export default function WeatherAcrossDates({ data }) {
   useEffect(() => {
     setWeather(data ? data.weatherData : null);
   }, [data]);
-
-  const renderWeatherForToday = () => {
-    const date = dayjs().format("hh:mm a");
-    const data = Object.values(weather)[0];
-    console.log(data);
-    return (<div className="weather-for-today-container">
-      <p className="">{date}</p>
-      <p className="">{`${data["t_2m:C"]}°C`}</p>
-      <p className="">High: {`${data["t_max_2m_24h:C"]}°C`}</p>
-      <p className="">Low: {`${data["t_min_2m_24h:C"]}°C`}</p>
-      <p className="">{weather.location}</p>
-    </div>)
-  }
 
   const renderWeatherForDate = (weatherData, index) => {
     const date = dayjs(weatherData[0]).format("hh:mm a");
@@ -38,10 +27,14 @@ export default function WeatherAcrossDates({ data }) {
 
   if (!weather) return <div>No data provided yet</div>
 
-  return (<div className="weather-view-grid">
-    <div className="weather-for-today">
-      {renderWeatherForToday()}
-    </div>
+  console.log(weather);
+
+  return (<div className="weather-view-grid" style={{ 
+    transition: "all",
+    transitionDuration: "200ms",
+    background: Object.values(weather)[0]["weather_symbol_1h:idx"] > 17 ? "linear-gradient(rgb(125 211 252), rgb(2 132 199))" : "linear-gradient(rgb(30 58 138), rgb(15 23 42))"
+  }}>
+    <WeatherToday data={weather} />
     <div className="weather-for-dates">
       <div className="weather-for-date-container-flex">
         <p>Forecast for the next 6 hours</p>
@@ -51,7 +44,7 @@ export default function WeatherAcrossDates({ data }) {
         </div>
       </div>
     </div>
-    <div className="weather-sunrise-sunset"></div>
+    <WeatherExtraInfo data={weather} />
     <WeatherForecast data={weather} />
   </div>)
 }

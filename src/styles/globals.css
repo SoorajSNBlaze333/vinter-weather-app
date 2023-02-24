@@ -12,32 +12,33 @@ body,
 main {
   height: 100vh;
   width: 100vw;
+  position: relative;
 }
 
-.weather-main {
-  background-image: url("../assets/rainy.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
+.fetch-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.weather-fetch-config {
+  position: absolute;
+  transition: all;
+  transition-duration: 200ms;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background: white;
 }
 
 .weather-view-grid {
   height: 100vh;
   width: 100vw;
+  display: flex;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 2rem;
-}
-
-.weather-for-today {
-  border: 1px solid brown;
-}
-
-.weather-for-today-container {
-  color: white;
-  font-size: 50px;
-  font-weight: 700;
 }
 
 .weather-for-dates {
@@ -50,8 +51,8 @@ main {
 .weather-for-date-container-flex {
   padding: 20px;
   border-radius: 10px;
-  backdrop-filter: blur(16px);
   color: white;
+  max-width: 595px;
 }
 
 .weather-for-date-container-flex > hr {
@@ -96,10 +97,6 @@ main {
   font-weight: 600;
 }
 
-.weather-sunrise-sunset {
-  border: 1px solid blue;
-}
-
 .weather-forecast {
   border-radius: 10px;
 }
@@ -107,7 +104,6 @@ main {
 .weather-forecast-container-flex {
   padding: 20px;
   border-radius: 10px;
-  backdrop-filter: blur(16px);
   color: white;
   max-width: 595px;
 }
@@ -143,4 +139,58 @@ main {
   justify-content: space-between;
   align-items: center;
   grid-column: span 6 / span 6;
+}
+
+.weather-extra {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start; 
+}
+
+.weather-extra-container-flex {
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  max-width: 595px;
+}
+
+.weather-extra-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center; 
+}
+
+.weather-extra-for-date {
+  width: auto;
+  min-width: 85px;
+  min-height: 150px;
+  max-height: 150px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weather-extra-for-date div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-for-today {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.weather-for-today-container {
+  color: white;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: left;
+  /* display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; */
 }
