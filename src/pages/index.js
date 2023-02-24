@@ -1,13 +1,29 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import { fetchWeatherData } from 'lib/api'
+import { fetchWeatherData } from '@/lib/api'
+import WeatherAcrossDates from '@/components/WeatherAcrossDates'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [isFetching, setIsFetching] = useState(false);
+  const [weatherData, setWeatherData] = useState(null);
+
   const handleFetch = async() => {
+    setIsFetching(true);
     return fetchWeatherData()
-      .then(data => console.log(data)).catch(error => console.log(error))
+      .then(data => setWeatherData(data))
+      .catch(error => console.log(error))
+      .finally(() => setIsFetching(false))
+  }
+
+  const renderWeatherData = () => {
+    if (isFetching) return <div>Loading Data</div>
+    return (<div className=''>
+      <WeatherAcrossDates data={weatherData} />
+      <button onClick={handleFetch}>Fetch Weather</button>
+    </div>)
   }
 
   return (
@@ -18,8 +34,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`h-full w-full ${inter.className}`}>
-        <button onClick={handleFetch}>Fetch Weather</button>
+      <main className={`${inter.className}`}>
+        {renderWeatherData()}
       </main>
     </>
   )

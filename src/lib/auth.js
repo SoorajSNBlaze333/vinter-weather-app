@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from '../lib/day';
 import { getStorage, setStorage } from "./storage"
 import axios from "axios";
 
@@ -19,8 +19,8 @@ export const checkAccessTokenValidity = async() => {
   let auth = getStorage("auth") ?? null;
   if (auth) {
     auth = JSON.parse(auth);
-    console.log(dayjs(auth.createdAt).isAfter(dayjs().add(2, 'hours')));
-    if (dayjs(auth.createdAt).isAfter(dayjs().add(2, 'hours'))) {
+    console.log(dayjs().isAfter(dayjs(auth.createdAt).add(2, 'hours')));
+    if (dayjs().isAfter(dayjs(auth.createdAt).add(2, 'hours'))) {
       return setAndReturnAccessToken();
     }
     return auth.token;

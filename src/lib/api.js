@@ -1,15 +1,12 @@
 import axios from 'axios';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { checkAccessTokenValidity } from './auth';
-
-dayjs.extend(utc);
+import dayjs from '../lib/day';
 
 export const fetchWeatherData = async() => {
-  const startDate = dayjs().utc().format('YYYY-MM-DDThh:mm:ssZ');
-  const endDate = dayjs().utc().add(2, 'days').format('YYYY-MM-DDThh:mm:ssZ');
+  const startDate = dayjs().utcOffset(-6, true).format(`YYYY-MM-DDThh:mm:ssZ`);
+  console.log(startDate);
   const token = await checkAccessTokenValidity();
-  const URL = `https://api.meteomatics.com/${startDate}--${endDate}/t_2m:C,t_min_2m_24h:C,t_max_2m_24h:C,uv:idx,sunrise:sql,sunset:sql,weather_symbol_1h:idx/postal_US77058/json?access_token=${token}`;
+  const URL = `https://api.meteomatics.com/${startDate}P1D:PT1H/t_2m:C,t_min_2m_24h:C,t_max_2m_24h:C,uv:idx,sunrise:sql,sunset:sql,weather_symbol_1h:idx/postal_US77058/json?access_token=${token}`;
   return axios.get(URL)
     .then(response => response.data.data)
     .then((data = []) => {
