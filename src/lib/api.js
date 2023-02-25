@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { checkAccessTokenValidity } from './auth';
 import dayjs from '../lib/day';
 
@@ -10,15 +9,17 @@ export const fetchWeatherData = async(config) => {
   const token = await checkAccessTokenValidity();
   BASE_URL += `json?access_token=${token}`;
 
-  return axios.get(BASE_URL, {
+  const response = await fetch(BASE_URL, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
     },
-    withCredentials: false,
-  })
-    .then(response => response.data.data)
-    .then((data = []) => {
+    mode: "cors"
+  });
+  const result = response.json()
+
+  return result
+    .then(({ data }) => {
       const processedData = { location: "", weatherData: {} };
       data.forEach(({ parameter, coordinates }) => {
         processedData.location = { lat: coordinates[0].lat, lon: coordinates[0].lon };
