@@ -1,7 +1,8 @@
 import { Sun, SunHorizon, Waves } from "phosphor-react";
 import { LOCATIONS } from "@/config/constants";
+import dayjs from "../lib/day";
 
-export default function WeatherToday({ data, config }) {
+export default function Info({ data, config }) {
   const renderWeatherForToday = (data) => {
     const weather = Object.values(data)[0];
     const today = Object.values(data).slice(0, 1)[0];
@@ -23,12 +24,12 @@ export default function WeatherToday({ data, config }) {
         {config.parameters.includes("sunrise:sql") && <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
           <Sun size={32} weight="bold" style={{ marginRight: "10px", marginBottom: "10px" }} />
           <p style={{ margin: 0, marginRight: "5px" }}>Sunrise </p>
-          <p style={{ margin: 0 }}>{today["sunrise:sql"]}</p>
+          <p style={{ margin: 0 }}>{dayjs(today["sunrise:sql"]).utcOffset(renderLocation().utcOffset, false).format("h:mm a")}</p>
         </div>}
         {config.parameters.includes("sunset:sql") && <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
           <SunHorizon size={32} weight="bold" style={{ marginRight: "10px", marginBottom: "10px" }} />
           <p style={{ margin: 0, marginRight: "5px" }}>Sunset </p>
-          <p style={{ margin: 0 }}>{today["sunset:sql"]}</p>
+          <p style={{ margin: 0 }}>{dayjs(today["sunset:sql"]).utcOffset(renderLocation().utcOffset, false).format("h:mm a")}</p>
         </div>}
         {config.parameters.includes("uv:idx") && <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
           <Waves size={32} weight="bold" style={{ marginRight: "10px" }} />

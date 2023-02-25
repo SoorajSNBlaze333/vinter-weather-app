@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import dayjs from "../lib/day";
+import { DAYS } from "@/config/constants";
 
-const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-export default function WeatherForecast({ data, config }) {
+export default function Forecast({ data, config }) {
   const [forecast, setForecast] = useState({});
 
   useEffect(() => {

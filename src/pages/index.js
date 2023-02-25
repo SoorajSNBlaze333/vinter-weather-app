@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { fetchWeatherData } from '@/lib/api'
-import WeatherAcrossDates from '@/components/WeatherAcrossDates'
+import Weather from '@/components/Weather'
 import dayjs from '../lib/day';
 import { PencilSimple } from 'phosphor-react'
 import { LOCATIONS } from '@/config/constants'
@@ -81,7 +81,7 @@ export default function Home() {
 
   const renderWeatherData = () => {
     return (<div className=''>
-      {isFetching ? <div>Loading Data</div> : <WeatherAcrossDates data={weatherData} config={weatherConfig} />}
+      {isFetching ? <div>Loading Data</div> : <Weather data={weatherData} config={weatherConfig} />}
       
       <button onClick={() => toggleConfigView(true)} className="fetch-button">
         <PencilSimple size={24} />
