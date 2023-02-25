@@ -8,9 +8,13 @@ export const fetchWeatherData = async(config) => {
   BASE_URL += config.parameters.join(',') + "/";
   BASE_URL += config.coordinates.join(',') + "/";
   const token = await checkAccessTokenValidity();
-  BASE_URL += `json?access_token=${token}`;
+  BASE_URL += `json?access_token=${token}/`;
 
-  return axios.get(BASE_URL)
+  return axios.get(BASE_URL, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
     .then(response => response.data.data)
     .then((data = []) => {
       const processedData = { location: "", weatherData: {} };
