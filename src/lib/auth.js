@@ -2,7 +2,7 @@ import dayjs from '../lib/day';
 import { getStorage, setStorage } from "./storage"
 
 const login = () => {
-  return fetch("https://login.meteomatics.com/api/v1/token", {
+  return fetch("https://cors-anywhere.herokuapp.com/http://login.meteomatics.com/api/v1/token", {
     method: 'GET',
     headers: { 
       'Authorization': `Basic ${window.btoa(process.env.NEXT_PUBLIC_API_USERNAME + ":" + process.env.NEXT_PUBLIC_API_PASSWORD)}`,

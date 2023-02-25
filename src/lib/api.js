@@ -2,7 +2,7 @@ import { checkAccessTokenValidity } from './auth';
 import dayjs from '../lib/day';
 
 export const fetchWeatherData = async(config) => {
-  let BASE_URL = "https://api.meteomatics.com/";
+  let BASE_URL = "https://cors-anywhere.herokuapp.com/http://api.meteomatics.com/";
   BASE_URL += config.datetime + "P" + config.timerange + "D:PT" + config.duration + "H/";
   BASE_URL += config.parameters.join(',') + "/";
   BASE_URL += config.coordinates.join(',') + "/";
