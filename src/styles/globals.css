@@ -53,10 +53,13 @@ main {
   border-radius: 10px;
   color: white;
   max-width: 595px;
+  border: 0.2px solid white;
 }
 
-.weather-for-date-container-flex > hr {
-  opacity: 0.8;
+.weather-for-date-container-flex > p {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 5px 5px;
 }
 
 .weather-for-date-container {
@@ -106,6 +109,13 @@ main {
   border-radius: 10px;
   color: white;
   max-width: 595px;
+  border: 0.2px solid white;
+}
+
+.weather-forecast-container-flex > p {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 5px 5px;
 }
 
 .weather-forecast-container {
