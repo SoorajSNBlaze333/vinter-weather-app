@@ -1,5 +1,4 @@
 import { checkAccessTokenValidity } from './auth';
-import dayjs from '../lib/day';
 
 export const fetchWeatherData = async(config) => {
   let BASE_URL = "https://api.meteomatics.com/";
