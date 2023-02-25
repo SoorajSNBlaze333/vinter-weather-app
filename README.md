@@ -28,9 +28,17 @@ By default the application gets the weather data for the location Houston, which
 ```
 
 All thest values can be configured in the sidebar as shown below
-![config1](./src/assets/Config1.png "Config1")
-![config1](./src/assets/Config2.png "Config2")
-![config1](./src/assets/Config3.png "Config3")
+ - Location 1 (Houston)
+![location1](./src/assets/Location1.png "Location1")
+![location1config](./src/assets/Location1Config.png "Location1 Config")
+
+ - Location 2 (Stockholm)
+![location2](./src/assets/Location2.png "Location2")
+![location2config](./src/assets/Location2Config.png "Location2 Config")
+
+ - Location 3 (Chennai)
+![location3](./src/assets/Location3.png "Location3")
+![location3config](./src/assets/Location3Config.png "Location3 Config")
 
 ## App Structure
 

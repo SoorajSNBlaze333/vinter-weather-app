@@ -2,12 +2,12 @@ import { Cloud } from "phosphor-react";
 import LineChart from "./misc/LineChart";
 import { useEffect, useState } from "react";
 import dayjs from "../lib/day";
+import { LOCATIONS } from "@/config/constants";
 
 let graphData = [];
 
 export default function Today({ data = {}, config }) {
-  const [weatherData, setWeatherData] = useState({})
-
+  const [weatherData, setWeatherData] = useState({});
 
   useEffect(() => {
     if (data) {
@@ -19,7 +19,8 @@ export default function Today({ data = {}, config }) {
   }, [data]);
 
   const renderWeatherForDate = (weatherData, index) => {
-    const date = dayjs(weatherData[0]).format("hh:mm a");
+    const location = LOCATIONS[LOCATIONS.findIndex(location => location.lat === config.coordinates[0] && location.lon === config.coordinates[1])];
+    const date = dayjs(weatherData[0]).utcOffset(location.utcOffset, false).format("hh:mm a");
     const data = weatherData[1];
     return (<div key={index} className="weather-for-date">
       <p>{Boolean(!index) ? "Now" : date}</p>
