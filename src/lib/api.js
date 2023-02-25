@@ -12,7 +12,8 @@ export const fetchWeatherData = async(config) => {
 
   return axios.get(BASE_URL, {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     },
     withCredentials: false,
   })

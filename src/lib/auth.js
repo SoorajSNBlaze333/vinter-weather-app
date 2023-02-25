@@ -6,7 +6,8 @@ const login = () => {
   return axios.get("https://login.meteomatics.com/api/v1/token", {
     headers: { 
       'Authorization': `Basic ${window.btoa(process.env.NEXT_PUBLIC_API_USERNAME + ":" + process.env.NEXT_PUBLIC_API_PASSWORD)}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     },
     withCredentials: false,
   })
