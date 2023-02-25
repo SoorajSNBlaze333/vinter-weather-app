@@ -14,25 +14,34 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Using the Application
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+By default the application gets the weather data for the location Houston, which can be updated along with other parameters such as 
+```javascript
+  Timerange // This is used to set for how many days from today you want to show the weather of
+  Duration // This is used to set the intervals between the weather data (Step count)
+  Min Temperature // Show the minimum temperature or not
+  Max Temperature // Show the maximum temperature or not
+  UV Index // Show the UV Index or not
+  Sunrise Time // Show the sunrise time or not
+  Sunset Time // Show the sunset time or not
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+All thest values can be configured in the sidebar as shown below
+![config1](./src/assets/Config1.png "Config1")
+![config1](./src/assets/Config2.png "Config2")
+![config1](./src/assets/Config3.png "Config3")
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## App Structure
 
-## Learn More
+The app follows a default React app structure. I have created the webapp using NextJS 13 framework. 
+![folder](./src/assets/Folder.png "Folder")
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```Javascript
+ - assets // Contains all the images/video files required for the application
+ - components // Contains all the small components that are used within the application
+ - config // Contains all the configuration files. (Example constants.js contains the constant variables used in the application)
+ - lib // Contains all the libraries that are used in the application (Example dayjs, auth, api)
+ - pages // Created by default by next js (These are all the pages for the application)
+ - stlyes // Contains all the css styles needed for the application
+```
