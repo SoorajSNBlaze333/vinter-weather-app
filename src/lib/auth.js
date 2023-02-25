@@ -7,7 +7,8 @@ const login = () => {
     headers: { 
       'Authorization': `Basic ${window.btoa(process.env.NEXT_PUBLIC_API_USERNAME + ":" + process.env.NEXT_PUBLIC_API_PASSWORD)}`,
       'Content-Type': 'application/json'
-    }
+    },
+    withCredentials: false,
   })
 }
 

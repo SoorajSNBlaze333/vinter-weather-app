@@ -13,7 +13,8 @@ export const fetchWeatherData = async(config) => {
   return axios.get(BASE_URL, {
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    withCredentials: false,
   })
     .then(response => response.data.data)
     .then((data = []) => {

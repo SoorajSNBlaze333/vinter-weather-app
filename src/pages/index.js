@@ -5,8 +5,9 @@ import { fetchWeatherData } from '@/lib/api'
 import WeatherAcrossDates from '@/components/WeatherAcrossDates'
 import dayjs from '../lib/day';
 import { PencilSimple } from 'phosphor-react'
+import { LOCATIONS } from '@/config/constants'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [isFetching, setIsFetching] = useState(false);
@@ -15,7 +16,7 @@ export default function Home() {
     datetime: `${dayjs().utcOffset(-6, true).format(`YYYY-MM-DDThh:mm:ssZ`)}`,
     timerange: 2,
     duration: 2,
-    coordinates: [29.749907, -95.358421],
+    coordinates: [LOCATIONS[0].lat, LOCATIONS[0].lon],
     parameters: ["t_2m:C", "t_min_2m_24h:C", "t_max_2m_24h:C", "uv:idx", "sunrise:sql", "sunset:sql", "weather_symbol_1h:idx"]
   });
   const [configView, toggleConfigView] = useState(false);
@@ -24,6 +25,10 @@ export default function Home() {
     handleFetch(weatherConfig);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    handleFetch(weatherConfig);
+  }, [weatherConfig]);
 
   const handleFetch = async() => {
     setIsFetching(true);
@@ -64,6 +69,16 @@ export default function Home() {
     })
   }
 
+  const handleLocation = (e) => {
+    console.log(e.target.value.split(','))
+    setWeatherConfig(config => {
+      return {
+        ...config,
+        coordinates: e.target.value.split(',')
+      }
+    })
+  }
+
   const renderWeatherData = () => {
     return (<div className=''>
       {isFetching ? <div>Loading Data</div> : <WeatherAcrossDates data={weatherData} config={weatherConfig} />}
@@ -74,15 +89,10 @@ export default function Home() {
 
       <div className='weather-fetch-config' style={{ right: configView ? "0px" : "-400px" }}>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", padding: "20px" }}>
-          {/* <label htmlFor='location-parameter'>Location</label>
-          <select id="location-parameter" onChange={handleTimerange} defaultValue={weatherConfig.timerange}>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
-            <option value={6}>6</option>
-          </select> */}
+          <label htmlFor='location-parameter'>Location</label>
+          <select id="location-parameter" onChange={handleLocation} defaultValue={weatherConfig.coordinates.join(',')}>
+            {LOCATIONS.map((location, index) => <option key={index} value={location.lat + "," + location.lon}>{location.name}</option>)}
+          </select>
 
           <label htmlFor='timerange-parameter'>Timerange</label>
           <select id="timerange-parameter" onChange={handleTimerange} defaultValue={weatherConfig.timerange}>
