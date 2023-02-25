@@ -4,14 +4,22 @@ import { Cloud } from 'phosphor-react';
 import WeatherForecast from './WeatherForecast';
 import WeatherExtraInfo from './WeatherExtraInfo';
 import WeatherToday from './WeatherToday';
+import LineChart from './LineChart';
 
-export default function WeatherAcrossDates({ data }) {
+let graphData = [];
+
+export default function WeatherAcrossDates({ data, config }) {
   const [weather, setWeather] = useState(null);
   const [location, setLocation] = useState("");
 
   useEffect(() => {
     // setLocation(data ? data.location : { lat: 0, lon: 0 });
-    setWeather(data ? data.weatherData : null);
+    if (data) {
+      setWeather(data.weatherData);
+      const temperature = [];
+      Object.entries(data.weatherData).slice(0, 7).forEach((date, index) => temperature.push({ x: index, y: date[1]["t_2m:C"] }));
+      graphData = temperature;
+    }
   }, [data]);
 
   const renderWeatherForDate = (weatherData, index) => {
@@ -29,24 +37,22 @@ export default function WeatherAcrossDates({ data }) {
 
   if (!weather) return <div>No data provided yet</div>
 
-  console.log(weather);
-
   return (<div className="weather-view-grid" style={{ 
     transition: "all",
     transitionDuration: "200ms",
     background: Object.values(weather)[0]["weather_symbol_1h:idx"] > 17 ? "linear-gradient(rgb(125 211 252), rgb(2 132 199))" : "linear-gradient(rgb(30 58 138), rgb(15 23 42))"
   }}>
-    <WeatherToday location={location} data={weather} />
+    <WeatherToday location={location} data={weather} config={config} />
     <div className="weather-for-dates">
       <div className="weather-for-date-container-flex">
-        <p>Forecast for the next 6 hours</p>
+        <p>Forecast for the next {config.duration * 6} hours</p>
         <hr />
+        {Boolean(graphData.length) && <LineChart data={graphData} />}
         <div className="weather-for-date-container">
           {Object.entries(weather).slice(0, 7).map(renderWeatherForDate)}
         </div>
       </div>
     </div>
-    <WeatherExtraInfo data={weather} />
-    <WeatherForecast data={weather} />
+    <WeatherForecast data={weather} config={config} />
   </div>)
 }

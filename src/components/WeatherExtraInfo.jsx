@@ -1,27 +1,19 @@
-import dayjs from "../lib/day";
-
-export default function WeatherExtraInfo({ data }) {
+export default function WeatherExtraInfo({ data, config }) {
   const renderExtrasForWeather = (data) => {
     const today = Object.values(data).slice(0, 1)[0];
-    console.log(today)
-
-
-    // const date = dayjs(weatherData[0]).format("hh:mm a");
-    // const data = weatherData[1];
-    // console.log(data);
     return (<div className="weather-extra-for-date">
-      <div>
+      {config.parameters.includes("sunrise:sql") && <div>
         <p>SUNRISE</p>
         <p>{today["sunrise:sql"]}</p>
-      </div>
-      <div>
+      </div>}
+      {config.parameters.includes("sunset:sql") && <div>
         <p>SUNSET</p>
-        <p>{today["sunrise:sql"]}</p>
-      </div>
-      <div>
+        <p>{today["sunset:sql"]}</p>
+      </div>}
+      {config.parameters.includes("uv:idx") && <div>
         <p>UV INDEX</p>
         <p>{today["uv:idx"]}</p>
-      </div>
+      </div>}
     </div>)
   }
 

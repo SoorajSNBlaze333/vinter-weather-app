@@ -2,10 +2,15 @@ import axios from 'axios';
 import { checkAccessTokenValidity } from './auth';
 import dayjs from '../lib/day';
 
-export const fetchWeatherData = async() => {
+export const fetchWeatherData = async(config) => {
+  let BASE_URL = "https://api.meteomatics.com/";
+  BASE_URL += config.datetime + "P" + config.timerange + "D:PT" + config.duration + "H/";
+  BASE_URL += config.parameters.join(',') + "/";
+  BASE_URL += config.coordinates.join(',') + "/";
   const token = await checkAccessTokenValidity();
-  const URL = `https://api.meteomatics.com/${startDate}P5D:PT1H/t_2m:C,t_min_2m_24h:C,t_max_2m_24h:C,uv:idx,sunrise:sql,sunset:sql,weather_symbol_1h:idx/29.749907,-95.358421/json?access_token=${token}`;
-  return axios.get(URL)
+  BASE_URL += `json?access_token=${token}`;
+
+  return axios.get(BASE_URL)
     .then(response => response.data.data)
     .then((data = []) => {
       const processedData = { location: "", weatherData: {} };

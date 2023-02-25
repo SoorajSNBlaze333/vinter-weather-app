@@ -181,8 +181,9 @@ main {
 .weather-for-today {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-end;
+  grid-row: span 2 / span 2;
 }
 
 .weather-for-today-container {
@@ -193,4 +194,8 @@ main {
   /* display: flex;
   justify-content: flex-start;
   align-items: flex-start; */
+}
+
+.progress-bar {
+  background: linear-gradient(to right, rgb(132 204 22), rgb(22 163 74), rgb(253 224 71), rgb(234 88 12), rgb(220 38 38));
 }
