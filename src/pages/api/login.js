@@ -8,7 +8,7 @@ export default async function handler(req, res) {
       headers: { 
         'Authorization': `Basic ${baseToken}`,
         'Content-Type': 'application/json',
-      },
+      }
     });
     const { access_token } = await result.json();
     return res.status(200).json({ access_token })

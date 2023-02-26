@@ -22,7 +22,9 @@ export default async function handler(req, res) {
         processedData.location = { lat: coordinates[0].lat, lon: coordinates[0].lon };
         const timestamps = coordinates[0].dates;
         timestamps.forEach((timestamp) => {
-          processedData.weatherData[timestamp.date] = { ...processedData.weatherData[timestamp.date], [parameter]: timestamp.value }
+          processedData.weatherData[timestamp.date] = { 
+            ...processedData.weatherData[timestamp.date],
+            [parameter]: timestamp.value }
         });
       });
       return res.status(200).json({ data: processedData })
