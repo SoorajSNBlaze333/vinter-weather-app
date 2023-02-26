@@ -1,19 +1,8 @@
 import dayjs from '../lib/day';
-import { getStorage, setStorage } from "./storage"
-
-const login = () => {
-  return fetch("https://login.meteomatics.com/api/v1/token", {
-    method: 'GET',
-    headers: { 
-      'Authorization': `Basic ${window.btoa(process.env.NEXT_PUBLIC_API_USERNAME + ":" + process.env.NEXT_PUBLIC_API_PASSWORD)}`,
-      'Content-Type': 'application/json',
-    },
-    mode: 'cors'
-  })
-}
+import { getStorage, setStorage } from "./storage";
 
 const setAndReturnAccessToken = async() => {
-  const response = await login();
+  const response = await fetch("https://main.d1euh075gobjok.amplifyapp.com/api/login", { method: 'GET' });
   const { access_token } = await response.json();
   setStorage('auth', JSON.stringify({ createdAt: dayjs().valueOf(), token: access_token }));
   return access_token;
