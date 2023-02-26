@@ -1,7 +1,9 @@
+import { METEOMATICS_TOKEN } from "@/config/routes";
+
 export default async function handler(req, res) {
   try {
     const baseToken = Buffer.from(process.env.NEXT_PUBLIC_API_USERNAME + ":" + process.env.NEXT_PUBLIC_API_PASSWORD).toString('base64')
-    const result = await fetch("https://login.meteomatics.com/api/v1/token", {
+    const result = await fetch(METEOMATICS_TOKEN, {
       method: 'GET',
       headers: { 
         'Authorization': `Basic ${baseToken}`,

@@ -48,9 +48,11 @@ The app follows a default React app structure. I have created the webapp using N
 ```Javascript
  - assets // Contains all the images/video files required for the application
  - components // Contains all the small components that are used within the application
- - config // Contains all the configuration files. (Example constants.js contains the constant variables used in the application)
+ - config // Contains all the configuration files. (Example constants.js contains the constant variables or routes used in the application)
  - lib // Contains all the libraries that are used in the application (Example dayjs, auth, api)
  - pages // Created by default by next js (These are all the pages for the application)
+ - pages / index // The entry point into the app
+ - pages / api / *.js // Next JS server app that will be used to make api calls from our client to avoid CORS issues
  - stlyes // Contains all the css styles needed for the application
 ```
 
@@ -61,6 +63,17 @@ The `https://login.meteomatics.com/api/v1/token` is used to get an access token 
 
 `lib/api.js` -> `fetchWeatherData()` contains the api method to fetch the weather data. Before each call, we will call the 
 ```javascript
+  import { LOGIN_URL } from '@/config/routes';
+  import dayjs from '../lib/day';
+  import { getStorage, setStorage } from "./storage";
+
+  const setAndReturnAccessToken = async() => {
+    const response = await fetch(LOGIN_URL, { method: 'GET' });
+    const { access_token } = await response.json();
+    setStorage('auth', JSON.stringify({ createdAt: dayjs().valueOf(), token: access_token }));
+    return access_token;
+  }
+
   export const checkAccessTokenValidity = async() => {
     let auth = getStorage("auth") ?? null;
     if (auth) {
@@ -77,24 +90,62 @@ method from `lib/auth.js` to check if we have a valid token saved in the local s
 
 Our fetchWeatherData() would look like
 ```javascript
+  import { WEATHER_URL } from '@/config/routes';
+  import { checkAccessTokenValidity } from './auth';
+
   export const fetchWeatherData = async(config) => {
-    let BASE_URL = "https://api.meteomatics.com/";
-    BASE_URL += config.datetime + "P" + config.timerange + "D:PT" + config.duration + "H/";
-    BASE_URL += config.parameters.join(',') + "/";
-    BASE_URL += config.coordinates.join(',') + "/";
     const token = await checkAccessTokenValidity();
-    BASE_URL += `json?access_token=${token}`;
+    const newConfig = { ...config, token };
+    const parameters = new URLSearchParams(newConfig).toString()
+    const response = await fetch(WEATHER_URL(parameters), { method: 'GET' });
+    return response.json()
+      .then(({ data }) => data)
+      .catch(error => console.log(error))
+  }
+```
+
+`pages/api/login.js`
+```javascript
+  import { METEOMATICS_TOKEN } from "@/config/routes";
+
+  export default async function handler(req, res) {
+    try {
+      const baseToken = Buffer.from(process.env.NEXT_PUBLIC_API_USERNAME + ":" + process.env.NEXT_PUBLIC_API_PASSWORD).toString('base64')
+      const result = await fetch(METEOMATICS_TOKEN, {
+        method: 'GET',
+        headers: { 
+          'Authorization': `Basic ${baseToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const { access_token } = await result.json();
+      return res.status(200).json({ access_token })
+    } catch (error) {
+      return res.status(500).json({ success: false })
+    }
+  }
+```
+
+`pages/api/weather.js`
+```javascript
+  import { METEOMATICS_WEATHER } from "@/config/routes";
+
+  export default async function handler(req, res) {
+    const config = req.query;
+
+    let BASE_URL = METEOMATICS_WEATHER;
+    BASE_URL += config.datetime + "P" + config.timerange + "D:PT" + config.duration + "H/";
+    BASE_URL += config.parameters + "/";
+    BASE_URL += config.coordinates + "/";
+    BASE_URL += `json?access_token=${config.token}`;
 
     const response = await fetch(BASE_URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      mode: "cors"
+      }
     });
-    const result = response.json()
-
-    return result
+    return response.json()
       .then(({ data }) => {
         const processedData = { location: "", weatherData: {} };
         data.forEach(({ parameter, coordinates }) => {
@@ -104,9 +155,11 @@ Our fetchWeatherData() would look like
             processedData.weatherData[timestamp.date] = { ...processedData.weatherData[timestamp.date], [parameter]: timestamp.value }
           });
         });
-        return processedData;
+        return res.status(200).json({ data: processedData })
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        return res.status(500).json({ success: false, error })
+      })
   }
 ```
 
@@ -122,7 +175,6 @@ It was a challenging task building the entire UI view without any given design o
 - Design it on Figma before creating the UI
 - Break down current components into smaller components
 - Clean up the code to look more organized than current
-- Fix the annoying CORS issue (I lost a lot of time trying to debug the CORS issue that was occuring when the application was deployed using aws amplify. I was able to bypass the cors for the fetch weather api but the login was not being accepted when using the heroku-cors-anywhere proxy link [Github Issue](https://github.com/Rob--W/cors-anywhere/issues/39)).
 
 # As tempory fix, to view the application, please use Chrome and also use the CORS extension for chrome, as I am unable to bypass the cors for the login api call
 

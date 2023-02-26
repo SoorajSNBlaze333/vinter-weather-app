@@ -1,7 +1,9 @@
+import { METEOMATICS_WEATHER } from "@/config/routes";
+
 export default async function handler(req, res) {
   const config = req.query;
 
-  let BASE_URL = "https://api.meteomatics.com/";
+  let BASE_URL = METEOMATICS_WEATHER;
   BASE_URL += config.datetime + "P" + config.timerange + "D:PT" + config.duration + "H/";
   BASE_URL += config.parameters + "/";
   BASE_URL += config.coordinates + "/";
@@ -11,8 +13,7 @@ export default async function handler(req, res) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    },
-    mode: "cors"
+    }
   });
   return response.json()
     .then(({ data }) => {

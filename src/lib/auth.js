@@ -1,8 +1,9 @@
+import { LOGIN_URL } from '@/config/routes';
 import dayjs from '../lib/day';
 import { getStorage, setStorage } from "./storage";
 
 const setAndReturnAccessToken = async() => {
-  const response = await fetch("https://main.d1euh075gobjok.amplifyapp.com/api/login", { method: 'GET' });
+  const response = await fetch(LOGIN_URL, { method: 'GET' });
   const { access_token } = await response.json();
   setStorage('auth', JSON.stringify({ createdAt: dayjs().valueOf(), token: access_token }));
   return access_token;
