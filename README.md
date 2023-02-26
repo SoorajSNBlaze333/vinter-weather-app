@@ -176,5 +176,4 @@ It was a challenging task building the entire UI view without any given design o
 - Break down current components into smaller components
 - Clean up the code to look more organized than current
 
-# As tempory fix, to view the application, please use Chrome and also use the CORS extension for chrome, as I am unable to bypass the cors for the login api call
 
